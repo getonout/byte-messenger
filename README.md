@@ -1,2 +1,49 @@
 # byte-messenger
 GUI based application for send/receiving binary data via communications channels such as TCP/IP.
+
+# Platform
+This application has currently been built in a Linux Ubuntu 20.04 development host for a
+Linux target (x86_64-pc-linux-gnu) and a Windows target (x86_64-pc-linux-mingw32).
+
+# Build Info
+
+## Build Dependencies
+
+### Linux Native Target
+-git
+-build-essentials
+-autotools
+-cmake
+-qt5
+
+### Windows Cross-Compile Target
+-git
+-build-essentials
+-autotools
+-cmake
+-MXE
+-mingw-w64
+-qt5 for mingw-w64
+
+## Build Instructions
+
+### Linux Native Target
+1.  Clone the repository from github with the `git clone` command.
+2.  Navigate to the x86_64-pc-linux-gnu/src/byte-messenger directory of the repository.
+3.  Run cmake:
+    `cmake .`
+4.  Run make:
+    `make`
+5.  The **byte-messenger** executable will be found in the current directory.
+
+### Windows Native Target
+1.  Clone the repository from github with the `git clone` command.
+2.  Navigate to the x86_64-pc-linux-mingw32/src/byte-messenger directory of the repository.
+3.  Run cmake:
+    `cmake .`
+4.  Run make:
+    `make`
+5.  The **byte-messenger.exe** executable will be found in the current directory.
+
+# NOTES
+-This project is a work in progress (including this README file!)
