@@ -27,9 +27,14 @@ Linux target (x86_64-pc-linux-gnu) and a Windows target (x86_64-pc-linux-mingw32
 
 ## Build Instructions
 
+**NOTE:** When building the Windows target, the CMakeLists.txt file is currently configured
+to expect the MXE files to be located in /usr/lib/mxe.  This will need to be updated if you
+have installed the MXE files in an alternate location.
+
 ### Linux Native Target
 1.  Clone the repository from github with the `git clone` command.
-2.  Navigate to the x86_64-pc-linux-gnu/src/byte-messenger directory of the repository.
+2.  Navigate to the x86_64-pc-linux-gnu directory of the repository:
+    `cd x86_64-pc-linux-gnu`
 3.  Run cmake:
     `cmake .`
 4.  Run make:
@@ -38,7 +43,8 @@ Linux target (x86_64-pc-linux-gnu) and a Windows target (x86_64-pc-linux-mingw32
 
 ### Windows Native Target
 1.  Clone the repository from github with the `git clone` command.
-2.  Navigate to the x86_64-pc-linux-mingw32/src/byte-messenger directory of the repository.
+2.  Navigate to the x86_64-pc-linux-mingw32 directory of the repository:
+    `cd x86_64-pc-linux-mingw32`
 3.  Run cmake:
     `cmake .`
 4.  Run make:
