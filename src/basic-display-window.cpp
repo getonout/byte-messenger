@@ -1,3 +1,8 @@
+/**
+ * \file basic-display-window.cpp
+ * \brief Source implementation file for the BasicDisplayWindow class.
+ */
+
 #include "basic-display-window.h"
 #include "ui_basic-display-window.h"
 
@@ -49,6 +54,7 @@ void BasicDisplayWindow::addLine(const std::vector<uint8_t> &data, bool isRx, bo
 {
     std::string line;
 
+    // Construct the preamble of the displayed text if needed.
     if (withTimestamp)
     {
         line += "[";
@@ -65,9 +71,10 @@ void BasicDisplayWindow::addLine(const std::vector<uint8_t> &data, bool isRx, bo
         line += "Tx, ";
     }
 
+    // Create a new QLineEdit widget to add to the list widget to display the text.
     line += util::getStringFromData(data);
     QLineEdit *pLineEdit = new QLineEdit();
-    pLineEdit->setReadOnly(true);
+    pLineEdit->setReadOnly(true); // Don't allow editing.
     pLineEdit->setText(line.c_str());
     QListWidgetItem *pItem = new QListWidgetItem(pList);
     pList->addItem(pItem);
@@ -78,6 +85,7 @@ void BasicDisplayWindow::addNLine(const std::vector<uint8_t> &data, size_t lengt
 {
     std::string line;
 
+    // Construct the preamble of the displayed text if needed.
     if (withTimestamp)
     {
         line += "[";
@@ -94,9 +102,10 @@ void BasicDisplayWindow::addNLine(const std::vector<uint8_t> &data, size_t lengt
         line += "Tx, ";
     }
 
+    // Create a new QLineEdit widget to add to the list widget to display the text.
     line += util::getStringFromNData(data, length);
     QLineEdit *pLineEdit = new QLineEdit();
-    pLineEdit->setReadOnly(true);
+    pLineEdit->setReadOnly(true); // Don't allow editing.
     pLineEdit->setText(line.c_str());
     QListWidgetItem *pItem = new QListWidgetItem(pList);
     pList->addItem(pItem);
@@ -107,6 +116,7 @@ void BasicDisplayWindow::addString(const std::string &value, bool withTimestamp)
 {
     std::string line;
 
+    // Construct the preamble of the displayed text if needed.
     if (withTimestamp)
     {
         line += "[";
@@ -114,9 +124,10 @@ void BasicDisplayWindow::addString(const std::string &value, bool withTimestamp)
         line += "], ";
     }
 
+    // Create a new QLineEdit widget to add to the list widget to display the text.
     line += value;
     QLineEdit *pLineEdit = new QLineEdit();
-    pLineEdit->setReadOnly(true);
+    pLineEdit->setReadOnly(true); // Don't allow editing.
     pLineEdit->setText(line.c_str());
     QListWidgetItem *pItem = new QListWidgetItem(pList);
     pList->addItem(pItem);
@@ -138,12 +149,16 @@ void BasicDisplayWindow::handleCopyButton()
         return;
     }
 
+    // The list widget is single selection, but selection query only returns a list.
+    // The list should only contain one item, so just get the first item.
     QListWidgetItem *pItem = selectedItems.first();
     QLineEdit *pLineEdit = qobject_cast<QLineEdit *>(pList->itemWidget(pItem));
     std::stringstream ss(pLineEdit->text().toStdString());
     std::string field;
     std::string lastField;
 
+    // The data will be the last field of the comma separated text (this is to account
+    // for the optional preamble.
     while (std::getline(ss, field, ','))
     {
         lastField = field;

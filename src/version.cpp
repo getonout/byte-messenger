@@ -1,3 +1,8 @@
+/**
+ * \file version.cpp
+ * \brief Source implementation file for version routines.
+ */
+
 #include "version.h"
 
 #include <cstdlib>

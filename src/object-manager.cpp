@@ -1,3 +1,8 @@
+/**
+ * \file object-manager.cpp
+ * \brief Source implementation file for the ObjectManager class.
+ */
+
 #include "object-manager.h"
 
 #include <iostream>

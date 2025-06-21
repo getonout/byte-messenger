@@ -1,3 +1,8 @@
+/**
+ * \file main-window.cpp
+ * \brief Source implementation file for the MainWindow class.
+ */
+
 #include "main-window.h"
 #include "./ui_main-window.h"
 
@@ -15,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // Create the sub windows.
     BasicDisplayWindow *pDisplay = new BasicDisplayWindow(this);
     ObjectManager::setBasicDisplay(pDisplay);
     ObjectManager::getBasicDisplay()->show();

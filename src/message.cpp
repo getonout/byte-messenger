@@ -1,3 +1,8 @@
+/**
+ * \file message.cpp
+ * \brief Source implementation file for the Message class.
+ */
+
 #include "message.h"
 
 #include <cstdint>

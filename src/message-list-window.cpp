@@ -1,3 +1,8 @@
+/**
+ * \file message-list-window.cpp
+ * \brief Source implementation file for the MessageListWindow class.
+ */
+
 #include "message-list-window.h"
 #include "ui_message-list-window.h"
 
@@ -72,19 +77,21 @@ void MessageListWindow::handleOpenButton()
         return;
     }
 
+    // Item selection is single selection, but the selection query will only return
+    // a list.  The list should only contain one item, so just get the first item of the
+    // list.
     QListWidgetItem *pItem = selectedItems.first();
     QLineEdit *pLineEdit = qobject_cast<QLineEdit *>(pList->itemWidget(pItem));
     std::stringstream ss(pLineEdit->text().toStdString());
     std::string idString;
 
+    // Obtain the ID portion of the text from the selected item.
     std::getline(ss, idString, ':');
     uint32_t id = std::strtoul(idString.c_str(), nullptr, 10);
 
+    // Obtain the associated message information from the MessageList using the ID
+    // and update the message information displayed on the window.
     Message message = messageList.getMessage(id);
-
-    std::cout << "message.getId()=" << message.getId() << std::endl;
-    std::cout << "message.getName()=" << message.getName() << std::endl;
-    std::cout << "message.getString()=" << message.getString() << std::endl;
 
     MessageWindow *pWindow = ObjectManager::getMessageWindow();
     pWindow->setMessageId(message.getId());
