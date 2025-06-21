@@ -1,3 +1,8 @@
+/**
+ * \file socket-routines.cpp
+ * \brief Source implementation file for socket routines.
+ */
+
 #include "socket-routines.h"
 
 #include <csignal>
@@ -31,6 +36,7 @@ int tcp::initialize()
 
 int tcp::connectClient(const char *pAddress, uint16_t port, SOCKET &sock)
 {
+    // Create socket
     SOCKET clientSocket = socket(PF_INET, SOCK_STREAM, 0);
 
     if (clientSocket == INVALID_SOCKET)
@@ -39,11 +45,11 @@ int tcp::connectClient(const char *pAddress, uint16_t port, SOCKET &sock)
         return CONNECT_SOCKET_ERROR;
     }
 
+    // Populate address data structure
     sockaddr_in address;
     std::memset(&address, 0, sizeof(address));
     address.sin_family = AF_INET;
     address.sin_port = htons(port);
-    //if (!inet_aton(pAddress, &address.sin_addr))
     address.sin_addr.s_addr = inet_addr(pAddress);
     if (address.sin_addr.s_addr == INADDR_NONE)
     {
@@ -52,6 +58,7 @@ int tcp::connectClient(const char *pAddress, uint16_t port, SOCKET &sock)
         return CONNECT_ADDRESS_ERROR;
     }
 
+    // Connect socket
     if (connect(clientSocket, reinterpret_cast<sockaddr *>(&address), sizeof(address)) < 0)
     {
         std::cerr << "Error: clientConnect(): Error connecting to peer" << std::endl;
@@ -81,8 +88,10 @@ void *tcp::readThread(void *pData)
 
     bool connected = ObjectManager::getConnectionStatus();
 
+    // Thread loop
     while (connected)
     {
+        // Attempt to receive data from the peer
         ssize_t result = recv(ObjectManager::getPeerSocket(), reinterpret_cast<char *>(pTempBuf), MAX_READ_SIZE, 0);
 
         if (result < 0)
@@ -114,6 +123,7 @@ void *tcp::acceptThread(void *pData)
 
     acceptCallback_t callback = reinterpret_cast<acceptCallback_t>(pData);
 
+    // Create the listening socket
     SOCKET listenSock = socket(AF_INET, SOCK_STREAM, 0);
     if (listenSock == INVALID_SOCKET)
     {
@@ -122,6 +132,7 @@ void *tcp::acceptThread(void *pData)
         return nullptr;
     }
 
+    // Set the SO_REUSEADDR option for the listening socket
     int optVal = 1;
     if (setsockopt(listenSock, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<char *>(&optVal), sizeof(optVal)) == SOCKET_ERROR)
     {
@@ -131,6 +142,7 @@ void *tcp::acceptThread(void *pData)
         return nullptr;
     }
 
+    // Populate the address data structure
     sockaddr_in listenAddr;
     std::memset(&listenAddr, 0, sizeof(listenAddr));
     listenAddr.sin_family = AF_INET;
@@ -138,6 +150,7 @@ void *tcp::acceptThread(void *pData)
     // Port in ObjectManager updated in ConnectionWindow button handler
     listenAddr.sin_port = htons(ObjectManager::getConnectionWindow()->getPortValue());
 
+    // Bind the listening socket to the address
     if (bind(listenSock, reinterpret_cast<sockaddr *>(&listenAddr), sizeof(listenAddr)) == SOCKET_ERROR)
     {
         std::cerr << "Error: acceptThread(): Error binding socket" << std::endl;
@@ -147,6 +160,7 @@ void *tcp::acceptThread(void *pData)
         return nullptr;
     }
 
+    // Listen
     if (listen(listenSock, 1) == SOCKET_ERROR)
     {
         std::cerr << "Error: acceptThread(): Error listening socket" << std::endl;
@@ -161,6 +175,7 @@ void *tcp::acceptThread(void *pData)
     std::memset(&clientAddr, 0, sizeof(clientAddr));
     int clientAddrLen = sizeof(clientAddr);
 
+    // Accept client connection
     int clientSock = accept(listenSock, reinterpret_cast<sockaddr *>(&clientAddr), &clientAddrLen);
     if (clientSock == INVALID_SOCKET)
     {
@@ -181,6 +196,7 @@ void *tcp::acceptThread(void *pData)
 #else
 int tcp::connectClient(const char *pAddress, uint16_t port)
 {
+    // Create socket
     int sock = socket(PF_INET, SOCK_STREAM, 0);
 
     if (sock == -1)
@@ -189,6 +205,7 @@ int tcp::connectClient(const char *pAddress, uint16_t port)
         return CONNECT_SOCKET_ERROR;
     }
 
+    // Populate the address data structure
     sockaddr_in address;
     std::memset(&address, 0, sizeof(address));
     address.sin_family = AF_INET;
@@ -200,6 +217,7 @@ int tcp::connectClient(const char *pAddress, uint16_t port)
         return CONNECT_ADDRESS_ERROR;
     }
 
+    // Connect socket
     if (connect(sock, reinterpret_cast<sockaddr *>(&address), sizeof(address)) < 0)
     {
         std::cerr << "Error: clientConnect(): Error connecting to peer" << std::endl;
@@ -228,8 +246,10 @@ void *tcp::readThread(void *pData)
 
     bool connected = ObjectManager::getConnectionStatus();
 
+    // Thread loop
     while (connected)
     {
+        // Attemp to receive data from the peer
         ssize_t result = recv(ObjectManager::getPeerSocket(), pTempBuf, MAX_READ_SIZE, 0);
 
         if (result < 0)
@@ -261,6 +281,7 @@ void *tcp::acceptThread(void *pData)
 
     acceptCallback_t callback = reinterpret_cast<acceptCallback_t>(pData);
 
+    // Create the listening socket
     int listenSock = socket(AF_INET, SOCK_STREAM, 0);
     if (listenSock == -1)
     {
@@ -269,6 +290,7 @@ void *tcp::acceptThread(void *pData)
         return nullptr;
     }
 
+    // Set the SO_REUSEADDR option for the listening socket
     int optVal = 1;
     if (setsockopt(listenSock, SOL_SOCKET, SO_REUSEADDR, &optVal, sizeof(optVal)) == -1)
     {
@@ -278,6 +300,7 @@ void *tcp::acceptThread(void *pData)
         return nullptr;
     }
 
+    // Populate the address data structure
     sockaddr_in listenAddr;
     std::memset(&listenAddr, 0, sizeof(listenAddr));
     listenAddr.sin_family = AF_INET;
@@ -285,6 +308,7 @@ void *tcp::acceptThread(void *pData)
     // Port in ObjectManager updated in ConnectionWindow button handler
     listenAddr.sin_port = htons(ObjectManager::getConnectionWindow()->getPortValue());
 
+    // Bind the listening socket
     if (bind(listenSock, reinterpret_cast<sockaddr *>(&listenAddr), sizeof(listenAddr)) == -1)
     {
         std::cerr << "Error: acceptThread(): Error binding socket" << std::endl;
@@ -294,6 +318,7 @@ void *tcp::acceptThread(void *pData)
         return nullptr;
     }
 
+    // Listen
     if (listen(listenSock, 1) == -1)
     {
         std::cerr << "Error: acceptThread(): Error listening socket" << std::endl;
@@ -308,6 +333,7 @@ void *tcp::acceptThread(void *pData)
     std::memset(&clientAddr, 0, sizeof(clientAddr));
     socklen_t clientAddrLen = sizeof(clientAddr);
 
+    // Accept client connection
     int clientSock = accept(listenSock, reinterpret_cast<sockaddr *>(&clientAddr), &clientAddrLen);
     if (clientSock == -1)
     {

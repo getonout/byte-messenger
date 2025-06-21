@@ -1,3 +1,8 @@
+/**
+ * \file message-window.cpp
+ * \brief Source implementation file for the MessageWindow class.
+ */
+
 #include "message-window.h"
 #include "ui_message-window.h"
 

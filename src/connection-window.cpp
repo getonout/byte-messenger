@@ -1,3 +1,8 @@
+/**
+ * \file connection-window.cpp
+ * \bried Source implementation file for the ConnectionWindow class.
+ */
+
 #include "connection-window.h"
 #include "ui_connection-window.h"
 
@@ -140,6 +145,7 @@ void ConnectionWindow::handleUpdateConnectionInfoSignal(bool connected)
 
     if (connected)
     {
+        // Update all of the data and widgets to reflect connection status.
         ObjectManager::setConnectionStatus(true);
         sockaddr_in *pPeerAddress = ObjectManager::getPeerAddress();
         this->findChild<QLineEdit *>("peerAddressEdit")->setText(inet_ntoa(pPeerAddress->sin_addr));
@@ -151,6 +157,7 @@ void ConnectionWindow::handleUpdateConnectionInfoSignal(bool connected)
     }
     else
     {
+        // Update all of the data and widgets to reflect connection status.
         ObjectManager::setConnectionStatus(false);
         ObjectManager::getConnectionWindow()->setConnectionStatus(connectionStatus_t::NOT_CONNECTED);
         setRoleButtonsEnabled(true);
@@ -165,7 +172,8 @@ void ConnectionWindow::handleUpdateConnectionInfoSignal(bool connected)
         }
 
         // Set Start button to allow for depressing again
-        pStartButton->blockSignals(true);
+        pStartButton->blockSignals(true); // Prevent manual setting of button checked state from
+                                          // triggering signals.
         pStartButton->setChecked(false);
         pStartButton->blockSignals(false);
     }

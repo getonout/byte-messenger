@@ -1,3 +1,8 @@
+/**
+ * \file message-list.cpp
+ * \brief Source implementation file for the MessageList class.
+ */
+
 #include "message-list.h"
 
 #include <cstdint>
@@ -119,6 +124,7 @@ bool MessageList::writeToFiles()
         return false;
     }
 
+    // File contents consists of file names of the message information files.
     for (Message element : messages)
     {
         outFile << util::getMessageFilename(element.getId()) << std::endl;
@@ -143,8 +149,10 @@ bool MessageList::readFromFiles()
 
     std::string inLine;
 
+    // File contents consists of the file names of the message information files.
     while (std::getline(inFile, inLine))
     {
+        // Read each message information file and add to the list.
         uint32_t id = util::getIdFromFilename(inLine);
         if (id != 0)
         {
