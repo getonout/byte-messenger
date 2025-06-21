@@ -1,3 +1,9 @@
+00        01      02
+03        0405  0607
+08090A    0B  0C  0D
+0E    0F  10      11
+  1213    14      15
+
 # byte-messenger
 GUI based application for send/receiving binary data via communications channels such as TCP/IP.
 
@@ -53,3 +59,4 @@ have installed the MXE files in an alternate location.
 
 # NOTES
 -This project is a work in progress (including this README file!)
+-To generate Doxygen documentation, execute the command `doxygen Doxyfile`.

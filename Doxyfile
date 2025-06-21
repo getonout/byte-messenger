@@ -1,0 +1,34 @@
+PROJECT_NAME = "byte-messenger"
+PROJECT_BRIEF = "GUI application to send and received byte-oriented messages over various protocols such as TCP/IP."
+OUTPUT_DIRECTORY = doc
+
+INPUT = src/basic-display-window.cpp \
+        src/basic-display-window.h \
+        src/connection-window.cpp \
+        src/connection-window.h \
+        src/main-window.cpp \
+        src/main-window.h \
+        src/message.cpp \
+        src/message.h \
+        src/message-list.cpp \
+        src/message-list.h \
+        src/message-list-window.cpp \
+        src/message-list-window.h \
+        src/message-window.cpp \
+        src/message-window.h \
+        src/object-manager.cpp \
+        src/object-manager.h \
+        src/socket-routines.cpp \
+        src/socket-routines.h \
+        src/utilities.cpp \
+        src/utilities.h \
+        src/version.cpp \
+        src/version.h
+FILE_PATTERNS = *.h *.cpp
+RECURSIVE = NO
+
+GENERATE_HTML = YES
+GENERATE_LATEX = NO
+
+SOURCE_BROWSER = YES
+INLINE_SOURCES = NO

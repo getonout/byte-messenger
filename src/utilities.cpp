@@ -1,3 +1,8 @@
+/**
+ * \file
+ * \brief Source implementation file for utility routines.
+ */
+
 #include "utilities.h"
 
 #include <cstdint>
@@ -18,6 +23,7 @@ std::string util::getKeyStringFromPair(std::string pairString)
 {
     std::string result;
 
+    // key-value pair format: <key>=<value>
     size_t pos = pairString.find('=');
     if (pos != std::string::npos)
     {
@@ -35,6 +41,7 @@ std::string util::getValueStringFromPair(std::string pairString)
 {
     std::string result;
 
+    // key-value pair format: <key>=<value>
     size_t pos = pairString.find('=');
     if (pos != std::string::npos && pos + 1 < pairString.size())
     {
