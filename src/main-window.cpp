@@ -31,12 +31,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     MessageWindow *pMessageWindow = new MessageWindow(this);
     ObjectManager::setMessageWindow(pMessageWindow);
-    ObjectManager::getMessageWindow()->show();
+    // Don't show the Message window by default.
 
     MessageListWindow *pMessageListWindow = new MessageListWindow(this);
     ObjectManager::setMessageListWindow(pMessageListWindow);
     ObjectManager::getMessageListWindow()->initialize();
-    ObjectManager::getMessageListWindow()->show();
+    // Don't show the Message List window by default.
 }
 
 MainWindow::~MainWindow()
