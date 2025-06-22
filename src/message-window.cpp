@@ -100,10 +100,9 @@ void MessageWindow::handleSaveButton()
 
 void MessageWindow::handleSendButton()
 {
-    const std::vector<uint8_t> &data = message.getData();
-
-    std::cout << "MessageWindow::handleSendButton(): sending data, peer socket = " << ObjectManager::getPeerSocket()
-              << " data.size() = " << data.size() << std::endl;
+    //NOTE: Get the data from the window widget rather than the member object as the
+    //      user might have manually updated the data since loading.
+    const std::vector<uint8_t> &data = getData();
 
 #ifdef WIN_BUILD
     u_long mode = 1;
