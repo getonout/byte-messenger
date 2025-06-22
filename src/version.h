@@ -12,7 +12,7 @@ namespace version
 {
 #define MAJOR_VERSION "000"
 #define MINOR_VERSION "001"
-#define PATCH_VERSION "002"
+#define PATCH_VERSION "003"
 
 // This exists this in this manor so that you may find these strings as human readable strings
 // within the resulting executable.  For example, you could use the 'strings' utility on the
