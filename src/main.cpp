@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <QApplication>
+#include <QIcon>
 
 #include "object-manager.h"
 #include "socket-routines.h"
@@ -28,6 +29,9 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication a(argc, argv);
+    // Set application icon
+    QIcon icon("bm-logo.png");
+    a.setWindowIcon(icon);
     MainWindow w;
     w.show();
 
